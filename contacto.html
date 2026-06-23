@@ -11,122 +11,12 @@
   <meta property="og:description" content="¿Tenés un proyecto audiovisual? Escribinos por WhatsApp, mail o formulario. Te respondemos hoy." />
   <meta property="og:image" content="https://de-landing-a-site.vercel.app/img/og-prisma.webp" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="index, follow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0c0c0c;
-      --border: #222222;
-      --text: #f0ede6;
-      --muted: #6a6a6a;
-      --accent: #e8c547;
-      --radius: 3px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: "Syne", system-ui, sans-serif;
-      font-size: 16px;
-      line-height: 1.72;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── NAV ── */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      padding: 0 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 56px;
-    }
-
-    .nav-logo {
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-decoration: none;
-      color: var(--text);
-      text-transform: uppercase;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--muted);
-      transition: color 0.15s;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active { color: var(--text); }
-
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 4px;
-    }
-    .nav-toggle span {
-      display: block;
-      width: 22px;
-      height: 1.5px;
-      background: var(--text);
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    .nav-toggle.open span:nth-child(2) { opacity: 0; }
-    .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-    .nav-drawer {
-      display: none;
-      position: fixed;
-      inset: 56px 0 0 0;
-      background: var(--bg);
-      z-index: 99;
-      flex-direction: column;
-      padding: 40px 28px;
-      gap: 28px;
-      border-top: 1px solid var(--border);
-    }
-    .nav-drawer.open { display: flex; }
-    .nav-drawer a {
-      font-size: 22px;
-      font-weight: 700;
-      text-decoration: none;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .nav-drawer a.active,
-    .nav-drawer a:hover { color: var(--text); }
-
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .nav-toggle { display: flex; }
-    }
-
     /* ── HERO ── */
     .page-hero {
       padding: 96px 28px 80px;
@@ -429,34 +319,13 @@
       color: #e84747;
     }
 
-    footer {
-      padding: 36px 28px;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; transition: none; }
-    }
-
     @media (max-width: 360px) {
       .btn, .btn-submit { font-size: 12px; padding: 14px 20px; }
     }
 
     @media (min-width: 720px) {
-      .nav { padding: 0 80px; }
       .page-hero { padding: 120px 80px 96px; }
       .form-section { padding: 112px 80px; }
-      footer { padding: 40px 80px; }
     }
   </style>
 </head>
@@ -612,11 +481,12 @@
     const form = document.getElementById('contactForm');
     const btn = document.getElementById('submitBtn');
     const feedback = document.getElementById('formFeedback');
+    const btnOriginalHTML = btn.innerHTML;
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       btn.disabled = true;
-      btn.textContent = 'Enviando...';
+      btn.innerHTML = 'Enviando...';
       feedback.className = 'form-feedback';
 
       const data = new FormData(form);
@@ -640,7 +510,7 @@
         feedback.className = 'form-feedback error';
       } finally {
         btn.disabled = false;
-        btn.innerHTML = 'Enviar mensaje <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        btn.innerHTML = btnOriginalHTML;
       }
     });
     // Custom select

@@ -11,122 +11,14 @@
   <meta property="og:description" content="Publicidad, espectáculos, drone y 360°. Proyectos de producción audiovisual profesional para marcas y eventos." />
   <meta property="og:image" content="https://de-landing-a-site.vercel.app/img/og-prisma.webp" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="index, follow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0c0c0c;
-      --border: #222222;
-      --text: #f0ede6;
-      --muted: #6a6a6a;
-      --accent: #e8c547;
-      --radius: 3px;
-      --row-h: 240px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: "Syne", system-ui, sans-serif;
-      font-size: 16px;
-      line-height: 1.72;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── NAV ── */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      padding: 0 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 56px;
-    }
-
-    .nav-logo {
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-decoration: none;
-      color: var(--text);
-      text-transform: uppercase;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--muted);
-      transition: color 0.15s;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active { color: var(--text); }
-
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 4px;
-    }
-    .nav-toggle span {
-      display: block;
-      width: 22px;
-      height: 1.5px;
-      background: var(--text);
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    .nav-toggle.open span:nth-child(2) { opacity: 0; }
-    .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-    .nav-drawer {
-      display: none;
-      position: fixed;
-      inset: 56px 0 0 0;
-      background: var(--bg);
-      z-index: 99;
-      flex-direction: column;
-      padding: 40px 28px;
-      gap: 28px;
-      border-top: 1px solid var(--border);
-    }
-    .nav-drawer.open { display: flex; }
-    .nav-drawer a {
-      font-size: 22px;
-      font-weight: 700;
-      text-decoration: none;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .nav-drawer a.active,
-    .nav-drawer a:hover { color: var(--text); }
-
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .nav-toggle { display: flex; }
-    }
+    /* Variable local de esta página */
+    :root { --row-h: 240px; }
 
     /* ── HERO ── */
     .page-hero {
@@ -313,35 +205,14 @@
     }
     .btn:hover { box-shadow: 0 8px 24px rgba(232,197,71,0.22); }
 
-    footer {
-      padding: 36px 28px;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; transition: none; }
-    }
-
     @media (max-width: 360px) {
       .btn { font-size: 12px; padding: 14px 20px; }
     }
 
     @media (min-width: 720px) {
-      .nav { padding: 0 80px; }
       .page-hero { padding: 120px 80px 96px; }
       .section-label { padding: 80px 80px 48px; }
       .cta-final { padding: 140px 80px; }
-      footer { padding: 40px 80px; }
     }
   </style>
 </head>
@@ -385,13 +256,13 @@
       <p class="desc">Piezas publicitarias y contenido corporativo para marcas que buscan comunicar con claridad e impacto.</p>
     </div>
     <div class="proyecto-video">
-      <video autoplay loop muted playsinline>
+      <video autoplay loop muted playsinline preload="none">
         <source src="videos/portfolio/publicidad-reel.mp4" type="video/mp4">
       </video>
     </div>
     <div class="proyecto-vacio-col3"></div>
     <div class="proyecto-imagen">
-      <img src="img/portfolio/corporativo-video-anual-empresa.webp" alt="Producción corporativa" loading="lazy">
+      <img src="img/portfolio/guionista.webp" alt="Producción corporativa" loading="lazy">
     </div>
     <div class="proyecto-vacio-col2"></div>
   </div>
@@ -404,7 +275,7 @@
       <p class="desc">Cobertura de eventos, shows y transmisiones en vivo con equipos multicámara.</p>
     </div>
     <div class="proyecto-video">
-      <video autoplay loop muted playsinline>
+      <video autoplay loop muted playsinline preload="none">
         <source src="videos/portfolio/espectaculos-reel.mp4" type="video/mp4">
       </video>
     </div>
@@ -423,7 +294,7 @@
       <p class="desc">Video aéreo y contenido inmersivo en 360° para turismo, arquitectura y eventos de alto impacto.</p>
     </div>
     <div class="proyecto-video">
-      <video autoplay loop muted playsinline>
+      <video autoplay loop muted playsinline preload="none">
         <source src="videos/portfolio/drone-reel.mp4" type="video/mp4">
       </video>
     </div>
