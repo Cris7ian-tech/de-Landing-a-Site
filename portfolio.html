@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Prisma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0c;
+      --border: #222222;
+      --text: #f0ede6;
+      --muted: #6a6a6a;
+      --accent: #e8c547;
+      --radius: 3px;
+      --row-h: 240px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Syne", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--text); }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .nav-drawer {
+      display: none;
+      position: fixed;
+      inset: 56px 0 0 0;
+      background: var(--bg);
+      z-index: 99;
+      flex-direction: column;
+      padding: 40px 28px;
+      gap: 28px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a {
+      font-size: 22px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .nav-drawer a.active,
+    .nav-drawer a:hover { color: var(--text); }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+    }
+
+    /* ── HERO ── */
+    .page-hero {
+      padding: 96px 28px 80px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: clamp(40px, 10vw, 96px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      max-width: 700px;
+      margin-bottom: 40px;
+    }
+
+    .page-intro {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.65;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 64px 28px 40px;
+    }
+
+    /* ── GRID PROYECTO (modelo: servicios.html) ── */
+    /* 3 columnas × 3 filas. Orden en el HTML: texto, video, vacío-col3, imagen, vacío-col2.
+       El grid los acomoda solo (auto-placement), igual que en el boceto original. */
+    .proyecto {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 3fr 2fr 5fr;
+      min-height: 700px;
+      /* border-top: 1px solid var(--border); */
+    }
+
+    /* columna 1 — texto, ocupa toda la altura */
+    .proyecto-texto {
+      grid-row: span 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 32px;
+      border-right: 1px solid var(--border);
+    }
+
+    .proyecto-texto .cat {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .proyecto-texto .nombre {
+      font-size: clamp(20px, 2.6vw, 28px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .proyecto-texto .desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* columna 2 — video arriba (2/3) */
+    .proyecto-video {
+      grid-row: span 2;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .proyecto-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* columna 2 — vacío abajo (1/3) */
+    .proyecto-vacio-col2 {
+      border-right: 1px solid var(--border);
+      background: #141414;
+    }
+
+    /* columna 3 — vacío arriba (1/3) */
+    .proyecto-vacio-col3 {
+      border-bottom: 1px solid var(--border);
+      background: #141414;
+    }
+
+    /* columna 3 — imagen abajo (2/3) */
+    .proyecto-imagen {
+      grid-row: span 2;
+      overflow: hidden;
+    }
+    .proyecto-imagen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── MOBILE: todo se apila en una columna ── */
+    @media (max-width: 768px) {
+      .proyecto {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+      .proyecto-texto,
+      .proyecto-video,
+      .proyecto-vacio-col3,
+      .proyecto-imagen,
+      .proyecto-vacio-col2 {
+        grid-row: auto;
+        grid-column: auto;
+        border-right: none;
+      }
+      .proyecto-video { height: 220px; border-bottom: 1px solid var(--border); }
+      .proyecto-imagen { height: 220px; }
+      .proyecto-vacio-col3,
+      .proyecto-vacio-col2 { height: 48px; border-bottom: 1px solid var(--border); }
+    }
+
+    /* ── CTA FINAL ── */
+    .cta-final {
+      padding: 120px 28px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .cta-final h2 {
+      font-size: clamp(36px, 8vw, 72px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+
+    .cta-final p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 48px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #0c0c0c;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 16px 28px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: box-shadow 0.2s;
+      white-space: nowrap;
+      width: fit-content;
+    }
+    .btn:hover { box-shadow: 0 8px 24px rgba(232,197,71,0.22); }
+
+    footer {
+      padding: 36px 28px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    @media (max-width: 360px) {
+      .btn { font-size: 12px; padding: 14px 20px; }
+    }
+
+    @media (min-width: 720px) {
+      .nav { padding: 0 80px; }
+      .page-hero { padding: 120px 80px 96px; }
+      .section-label { padding: 80px 80px 48px; }
+      .cta-final { padding: 140px 80px; }
+      footer { padding: 40px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Prisma</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="servicios.html">Servicios</a></li>
+      <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      <li><a href="portfolio.html" class="active">Portfolio</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-drawer" id="drawer">
+    <a href="index.html" onclick="toggleMenu()">Inicio</a>
+    <a href="servicios.html" onclick="toggleMenu()">Servicios</a>
+    <a href="sobre-nosotros.html" onclick="toggleMenu()">Sobre nosotros</a>
+    <a href="portfolio.html" class="active" onclick="toggleMenu()">Portfolio</a>
+    <a href="contacto.html" onclick="toggleMenu()">Contacto</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="page-hero reveal">
+    <p class="page-eyebrow">Nuestro trabajo</p>
+    <h1 class="page-title">Portfolio</h1>
+    <p class="page-intro">Proyectos de producción audiovisual para marcas, eventos y plataformas digitales.</p>
+  </div>
+
+  <!-- PROYECTO 1 — PUBLICIDAD · CORPORATIVO -->
+  <div class="proyecto reveal">
+    <div class="proyecto-texto">
+      <p class="cat">Publicidad · Corporativo</p>
+      <h2 class="nombre">Campañas que<br>se destacan.</h2>
+      <p class="desc">Piezas publicitarias y contenido corporativo para marcas que buscan comunicar con claridad e impacto.</p>
+    </div>
+    <div class="proyecto-video">
+      <video autoplay loop muted playsinline>
+        <source src="videos/portfolio/publicidad-reel.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="proyecto-vacio-col3"></div>
+    <div class="proyecto-imagen">
+      <img src="img/portfolio/separador.jpg" alt="Producción corporativa" loading="lazy">
+    </div>
+    <div class="proyecto-vacio-col2"></div>
+  </div>
+
+  <!-- PROYECTO 2 — EVENTOS · ESPECTÁCULOS -->
+  <div class="proyecto reveal">
+    <div class="proyecto-texto">
+      <p class="cat">Eventos · Espectáculos</p>
+      <h2 class="nombre">En vivo,<br>en pantalla.</h2>
+      <p class="desc">Cobertura de eventos, shows y transmisiones en vivo con equipos multicámara.</p>
+    </div>
+    <div class="proyecto-video">
+      <video autoplay loop muted playsinline>
+        <source src="videos/portfolio/espectaculos-reel.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="proyecto-vacio-col3"></div>
+    <div class="proyecto-imagen">
+      <img src="img/portfolio/evento-festival-musica.webp" alt="Festival de Música" loading="lazy">
+    </div>
+    <div class="proyecto-vacio-col2"></div>
+  </div>
+
+  <!-- PROYECTO 3 — DRONE · 360° -->
+  <div class="proyecto reveal">
+    <div class="proyecto-texto">
+      <p class="cat">Drone · 360°</p>
+      <h2 class="nombre">Una mirada<br>distinta.</h2>
+      <p class="desc">Video aéreo y contenido inmersivo en 360° para turismo, arquitectura y eventos de alto impacto.</p>
+    </div>
+    <div class="proyecto-video">
+      <video autoplay loop muted playsinline>
+        <source src="videos/portfolio/drone-reel.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="proyecto-vacio-col3"></div>
+    <div class="proyecto-imagen">
+      <img src="img/portfolio/drone-toma-aerea-arquitectura.webp" alt="Toma aérea · Arquitectura" loading="lazy">
+    </div>
+    <div class="proyecto-vacio-col2"></div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-final reveal">
+    <h2>¿Sumamos tu proyecto?</h2>
+    <p>Contanos qué necesitás y te respondemos hoy.</p>
+    <a href="https://wa.me/5492216681863" class="btn" target="_blank" rel="noopener">
+      Hablemos de tu proyecto
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </section>
+
+  <footer>© 2025 Prisma Producción Audiovisual</footer>
+
+  <script>
+    function toggleMenu() {
+      const drawer = document.getElementById('drawer');
+      const toggle = document.querySelector('.nav-toggle');
+      drawer.classList.toggle('open');
+      toggle.classList.toggle('open');
+    }
+
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto — Prisma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0c;
+      --border: #222222;
+      --text: #f0ede6;
+      --muted: #6a6a6a;
+      --accent: #e8c547;
+      --radius: 3px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Syne", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--text); }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .nav-drawer {
+      display: none;
+      position: fixed;
+      inset: 56px 0 0 0;
+      background: var(--bg);
+      z-index: 99;
+      flex-direction: column;
+      padding: 40px 28px;
+      gap: 28px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a {
+      font-size: 22px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .nav-drawer a.active,
+    .nav-drawer a:hover { color: var(--text); }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+    }
+
+    /* ── HERO ── */
+    .page-hero {
+      padding: 96px 28px 80px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: clamp(40px, 10vw, 96px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      max-width: 700px;
+      margin-bottom: 40px;
+    }
+
+    .page-intro {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--muted);
+      max-width: 440px;
+      line-height: 1.65;
+    }
+
+    /* ── CANALES DIRECTOS ── */
+    .canales {
+      padding: 80px 28px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .canal-card {
+      background: var(--bg);
+      padding: 40px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .canal-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .canal-titulo {
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .canal-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .canal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+      width: fit-content;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .canal-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    @media (max-width: 600px) {
+      .canales {
+        grid-template-columns: 1fr;
+        padding: 0;
+      }
+      .canal-card { padding: 36px 28px; }
+    }
+
+    /* ── FORMULARIO ── */
+    .form-section {
+      padding: 96px 28px;
+    }
+
+    .section-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 56px;
+    }
+
+    .form-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .form-intro-titulo {
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .form-intro-desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 680px) {
+      .form-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    /* campos */
+    .form { display: flex; flex-direction: column; gap: 20px; }
+
+    .field { display: flex; flex-direction: column; gap: 8px; }
+
+    .field label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-family: "Syne", system-ui, sans-serif;
+      font-size: 15px;
+      padding: 12px 0;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      border-radius: 0;
+      appearance: none;
+    }
+
+    .field select { cursor: pointer; }
+
+    .field select option { background: #1a1a1a; color: var(--text); }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--accent);
+    }
+
+    /* ── CUSTOM SELECT ── */
+    .custom-select {
+      position: relative;
+      width: 100%;
+    }
+
+    .custom-select summary {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      font-family: "Syne", system-ui, sans-serif;
+      font-size: 15px;
+      color: var(--muted);
+      transition: border-color 0.2s;
+      user-select: none;
+    }
+
+    .custom-select summary::-webkit-details-marker { display: none; }
+
+    .custom-select[open] summary {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .custom-select summary .arrow {
+      font-size: 10px;
+      transition: transform 0.2s;
+    }
+
+    .custom-select[open] summary .arrow {
+      transform: rotate(180deg);
+    }
+
+    .custom-select-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #161616;
+      border: 1px solid var(--border);
+      z-index: 50;
+    }
+
+    .custom-select-dropdown li {
+      list-style: none;
+      padding: 12px 16px;
+      font-family: "Syne", system-ui, sans-serif;
+      font-size: 14px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .custom-select-dropdown li:last-child { border-bottom: none; }
+
+    .custom-select-dropdown li:hover {
+      background: #1f1f1f;
+      color: var(--text);
+    }
+
+    .custom-select-dropdown li.selected {
+      color: var(--accent);
+    }
+
+    .field textarea {
+      resize: none;
+      height: 120px;
+      line-height: 1.6;
+    }
+
+    /* botón submit */
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #0c0c0c;
+      font-family: "Syne", system-ui, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 16px 28px;
+      border-radius: var(--radius);
+      border: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: box-shadow 0.2s, opacity 0.2s;
+      margin-top: 8px;
+      white-space: nowrap;
+      width: fit-content;
+    }
+    .btn-submit:hover { box-shadow: 0 8px 24px rgba(232,197,71,0.22); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* feedback */
+    .form-feedback {
+      display: none;
+      padding: 20px 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+    .form-feedback.success {
+      display: block;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .form-feedback.error {
+      display: block;
+      border-color: #e84747;
+      color: #e84747;
+    }
+
+    footer {
+      padding: 36px 28px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    @media (max-width: 360px) {
+      .btn, .btn-submit { font-size: 12px; padding: 14px 20px; }
+    }
+
+    @media (min-width: 720px) {
+      .nav { padding: 0 80px; }
+      .page-hero { padding: 120px 80px 96px; }
+      .form-section { padding: 112px 80px; }
+      footer { padding: 40px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Prisma</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="servicios.html">Servicios</a></li>
+      <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="contacto.html" class="active">Contacto</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menú" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-drawer" id="drawer">
+    <a href="index.html" onclick="toggleMenu()">Inicio</a>
+    <a href="servicios.html" onclick="toggleMenu()">Servicios</a>
+    <a href="sobre-nosotros.html" onclick="toggleMenu()">Sobre nosotros</a>
+    <a href="portfolio.html" onclick="toggleMenu()">Portfolio</a>
+    <a href="contacto.html" class="active" onclick="toggleMenu()">Contacto</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="page-hero reveal">
+    <p class="page-eyebrow">Hablemos</p>
+    <h1 class="page-title">Contacto</h1>
+    <p class="page-intro">Contanos tu proyecto y te respondemos el mismo día.</p>
+  </div>
+
+  <!-- CANALES DIRECTOS -->
+  <div class="canales reveal">
+
+    <div class="canal-card">
+      <p class="canal-label">WhatsApp</p>
+      <h2 class="canal-titulo">Respuesta inmediata</h2>
+      <p class="canal-desc">Para consultas rápidas, presupuestos o arrancar una conversación sin vueltas.</p>
+      <a href="https://wa.me/5492216681863" class="canal-link" target="_blank" rel="noopener">
+        Escribinos
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="canal-card">
+      <p class="canal-label">Mail</p>
+      <h2 class="canal-titulo">Para proyectos con detalle</h2>
+      <p class="canal-desc">Mandanos la info de tu proyecto y te respondemos con una propuesta.</p>
+      <a href="mailto:cristianlucero04@gmail.com" class="canal-link">
+        Enviar mail
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- FORMULARIO -->
+  <section class="form-section reveal">
+    <span class="section-label">Formulario de contacto</span>
+    <div class="form-layout">
+
+      <div>
+        <h2 class="form-intro-titulo">Contanos tu proyecto.</h2>
+        <p class="form-intro-desc">Completá el formulario y te respondemos dentro de las 24 horas con información sobre disponibilidad y presupuesto.</p>
+      </div>
+
+      <div>
+        <form class="form" id="contactForm">
+          <input type="hidden" name="access_key" value="2be62aed-9664-424f-9892-7ef890f78d6c" />
+          <input type="hidden" name="subject" value="Nuevo contacto desde Prisma" />
+          <input type="checkbox" name="botcheck" style="display:none;" />
+
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+          </div>
+
+          <div class="field">
+            <label for="email">Mail</label>
+            <input type="email" id="email" name="email" placeholder="tu@mail.com" required />
+          </div>
+
+          <div class="field">
+            <label>Servicio de interés</label>
+            <input type="hidden" id="servicio" name="servicio" value="">
+            <details class="custom-select" id="servicioSelect">
+              <summary>
+                <span id="servicioLabel">Seleccioná un servicio</span>
+                <span class="arrow">▼</span>
+              </summary>
+              <ul class="custom-select-dropdown">
+                <li onclick="selectServicio('Publicidad')">Publicidad</li>
+                <li onclick="selectServicio('Animación')">Animación</li>
+                <li onclick="selectServicio('Videos 360°')">Videos 360°</li>
+                <li onclick="selectServicio('Espectáculos')">Espectáculos</li>
+                <li onclick="selectServicio('Drone')">Drone</li>
+                <li onclick="selectServicio('Fotografía')">Fotografía</li>
+                <li onclick="selectServicio('Filmación')">Filmación</li>
+                <li onclick="selectServicio('Edición / Postproducción')">Edición / Postproducción</li>
+                <li onclick="selectServicio('Dirección Creativa')">Dirección Creativa</li>
+                <li onclick="selectServicio('Otro')">Otro</li>
+              </ul>
+            </details>
+          </div>
+
+          <div class="field">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Contanos de qué se trata tu proyecto..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">
+            Enviar mensaje
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <div class="form-feedback" id="formFeedback"></div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>© 2025 Prisma Producción Audiovisual</footer>
+
+  <script>
+    function toggleMenu() {
+      const drawer = document.getElementById('drawer');
+      const toggle = document.querySelector('.nav-toggle');
+      drawer.classList.toggle('open');
+      toggle.classList.toggle('open');
+    }
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Formulario Web3Forms
+    const form = document.getElementById('contactForm');
+    const btn = document.getElementById('submitBtn');
+    const feedback = document.getElementById('formFeedback');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+      feedback.className = 'form-feedback';
+
+      const data = new FormData(form);
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: data
+        });
+        const json = await res.json();
+
+        if (json.success) {
+          feedback.textContent = '¡Mensaje enviado! Te respondemos pronto.';
+          feedback.className = 'form-feedback success';
+          form.reset();
+        } else {
+          throw new Error('Error en el envío');
+        }
+      } catch {
+        feedback.textContent = 'Hubo un error al enviar. Escribinos directamente por WhatsApp o mail.';
+        feedback.className = 'form-feedback error';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Enviar mensaje <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      }
+    });
+    // Custom select
+    function selectServicio(valor) {
+      document.getElementById('servicio').value = valor;
+      document.getElementById('servicioLabel').textContent = valor;
+      document.getElementById('servicioLabel').style.color = 'var(--text)';
+      const det = document.getElementById('servicioSelect');
+      det.removeAttribute('open');
+      // marcar seleccionado
+      det.querySelectorAll('li').forEach(li => {
+        li.classList.toggle('selected', li.textContent === valor);
+      });
+    }
+
+    // cerrar al click fuera
+    document.addEventListener('click', (e) => {
+      const det = document.getElementById('servicioSelect');
+      if (!det.contains(e.target)) det.removeAttribute('open');
+    });
+
+  </script>
+
+</body>
+</html>
