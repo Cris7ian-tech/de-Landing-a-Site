@@ -1,85 +1,92 @@
-# Prisma Landing Page
+# Prisma — Corporate Website
 
-Landing page desarrollada como proyecto de práctica para aplicar principios de diseño, copywriting y desarrollo frontend.
+## 🌐 Overview
 
-El objetivo fue construir una experiencia simple y enfocada en conversión para una productora audiovisual ficticia llamada ****Prisma****.
+Prisma is a multi-page corporate website built with HTML, CSS, and Vanilla JavaScript.  
+It evolved from a landing page into a structured website with a custom design system and an ongoing frontend architecture refactor.
 
-## Vista previa
+The main goal is to build a scalable, maintainable frontend without frameworks, focusing on:
+- clean structure
+- reusable components
+- consistent UI system
+- performance and simplicity
 
-![Vista previa de Prisma](./assets/Hero-prisma.png)
+---
 
-## Objetivo
+## 🚀 Live Project
 
-La landing fue diseñada para guiar al usuario hacia una acción principal:
+- Production: https://YOUR-VERCEL-URL.vercel.app
 
--   Contratar el servicio.
+---
 
-Y acciones secundarias:
+## 📄 Pages
 
--   Contactar por WhatsApp.
--   Solicitar presupuesto.
--   Iniciar una conversación comercial.
+- Home (`index.html`)
+- Services (`servicios.html`)
+- Portfolio (`portfolio.html`)
+- About (`sobre-nosotros.html`)
+- Contact (`contacto.html`)
 
-## Tecnologías utilizadas
+---
 
--   HTML5
--   CSS3
--   JavaScript (Vanilla)
+## 🧱 Tech Stack
 
-## Características
+- HTML5 (semantic structure)
+- CSS3 (design system with variables)
+- Vanilla JavaScript
+- Vercel (deployment)
+- No frameworks (intentional)
 
--   Diseño responsive (mobile-first).
--   Hero orientado a conversión.
--   Animaciones suaves mediante Intersection Observer.
--   CTA con microinteracciones.
--   Integración directa con WhatsApp.
--   Accesibilidad básica mediante `prefers-reduced-motion`.
--   Sistema visual minimalista y editorial.
+---
 
-## Decisiones de diseño
+## 🎨 Design System
 
-### Tipografía
+Prisma is based on a custom CSS variable system:
 
-Se evaluaron distintas alternativas (Syne, Inter y Manrope).
+- Color tokens in `:root`
+- Consistent spacing scale
+- Reusable UI components:
+  - Buttons
+  - Navigation
+  - Footer
+  - Section labels
+  - Cards
 
-Tras pruebas visuales dentro del diseño final, se decidió mantener ****Syne**** como tipografía principal por su personalidad, impacto visual y coherencia con la identidad de la marca.
+The system is being progressively refactored into a modular architecture.
 
-### Animaciones
+---
 
-Las animaciones se aplican por sección y no por elemento individual.
+## 🏗️ Architecture Evolution
 
-El objetivo es acompañar el contenido sin distraer al usuario ni afectar el rendimiento.
+### Phase 0 — Initial Build
+- Landing page expanded into multiple pages
+- Full duplication of CSS and JS across files
+- No shared architecture
 
-### Responsive
+### Phase 1 — Global Styles Refactor ✅
+- Created `css/styles.css`
+- Centralized:
+  - reset
+  - variables
+  - navigation
+  - footer
+  - reveal animations
+  - global media queries
+- Removed ~600+ lines of duplicated CSS
+- Established single source of truth for global styles
 
-Se realizaron ajustes específicos para dispositivos de 320px de ancho, corrigiendo un problema de scroll horizontal detectado durante las pruebas.
+### Phase 2 — In Progress
+- Extract reusable components:
+  - `.btn`
+  - `.section-label`
+- Prepare shared JavaScript (`main.js`)
+- Continue reducing duplication
 
-## Aprendizajes
+### Phase 3 — Planned
+- Fully modular CSS structure per page
+- Shared JS architecture
+- Final Design System consolidation
 
-Durante este proyecto se trabajó especialmente en:
+---
 
--   Jerarquía tipográfica.
--   Diseño orientado a conversión.
--   Responsive design.
--   Debugging visual.
--   Microinteracciones.
--   Organización de código frontend.
--   Toma de decisiones basada en pruebas visuales.
-
-## Estado del proyecto
-
-✅ MVP completado
-
-Posibles mejoras futuras:
-
--   Incorporación de portfolio visual.
--   Casos de estudio.
--   Testimonios.
--   Optimización SEO.
--   Despliegue en hosting público.
-
-## Autor
-
-Cristian Lucero
-
-Proyecto realizado como práctica de diseño y desarrollo frontend.
+## ⚙️ Current Architecture
